@@ -146,6 +146,10 @@
   --shadow-2xl: 0px 4px 10px 0px hsl(240 30% 25% / 0.3);
 
   --tracking-normal: 0em;
+
+  --priority-high: hsl(0 72% 51%);
+  --priority-medium: hsl(38 92% 50%);
+  --priority-low: hsl(142 71% 45%);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -235,6 +239,9 @@
   --shadow-opacity: var(--shadow-opacity);
   --color-shadow-color: var(--shadow-color);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-priority-high: var(--priority-high);
+  --color-priority-medium: var(--priority-medium);
+  --color-priority-low: var(--priority-low);
 }
 
 .dark {

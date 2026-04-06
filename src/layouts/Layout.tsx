@@ -1,7 +1,7 @@
+import { Outlet } from "react-router";
 import { AppSidebar } from "@/components/custom/AppSidebar";
 import { MobileNav } from "@/components/custom/MobileNav";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { Outlet } from "react-router";
 
 export const Layout = () => {
   return (

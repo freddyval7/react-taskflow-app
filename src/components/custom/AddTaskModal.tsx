@@ -29,12 +29,13 @@ export const AddTaskModal = ({ open, onClose }: AddTaskModalProps) => {
           <h2 className="text-lg font-semibold text-card-foreground">
             Add New Task
           </h2>
-          <button
+          <Button
             onClick={onClose}
             className="p-1.5 rounded-lg hover:bg-muted text-muted-foreground"
+            variant={"ghost"}
           >
             <X className="w-4 h-4" />
-          </button>
+          </Button>
         </div>
 
         <div className="space-y-4">

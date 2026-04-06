@@ -1,13 +1,7 @@
 import { Plus, Inbox } from "lucide-react";
 import { Button } from "../ui/button";
 import { TaskCard } from "./TaskCard";
-
-interface Task {
-  id: number;
-  title: string;
-  priority: "High" | "Medium" | "Low";
-  dueDate: string;
-}
+import type { Task } from "@/interfaces/data.interface";
 
 interface KanbanColumnProps {
   title: string;

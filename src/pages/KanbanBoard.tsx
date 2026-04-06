@@ -52,21 +52,21 @@ export const KanbanBoard = () => {
         <KanbanColumn
           title="To Do"
           tasks={initialTasks.todo}
-          accentColor="bg-column-todo"
+          accentColor="bg-sky-600"
           onAddTask={() => setModalOpen(true)}
           onDeleteTask={(id) => console.log("Delete", id)}
         />
         <KanbanColumn
           title="In Progress"
           tasks={initialTasks.inProgress}
-          accentColor="bg-column-progress"
+          accentColor="bg-amber-600"
           onAddTask={() => setModalOpen(true)}
           onDeleteTask={(id) => console.log("Delete", id)}
         />
         <KanbanColumn
           title="Done"
           tasks={initialTasks.done}
-          accentColor="bg-column-done"
+          accentColor="bg-emerald-600"
           onAddTask={() => setModalOpen(true)}
           onDeleteTask={(id) => console.log("Delete", id)}
         />
