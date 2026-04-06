@@ -1,5 +1,7 @@
 import { TrendingUp, CheckCircle2, Clock, Percent } from "lucide-react";
 
+import { barData, pieData } from "@/mock/mock.data";
+
 const kpis = [
   {
     label: "Total Tasks",
@@ -25,22 +27,6 @@ const kpis = [
     icon: Percent,
     color: "bg-accent text-accent-foreground",
   },
-];
-
-const barData = [
-  { day: "Mon", value: 30 },
-  { day: "Tue", value: 70 },
-  { day: "Wed", value: 50 },
-  { day: "Thu", value: 90 },
-  { day: "Fri", value: 40 },
-  { day: "Sat", value: 60 },
-  { day: "Sun", value: 20 },
-];
-
-const pieData = [
-  { label: "High", percent: 50, color: "bg-priority-high" },
-  { label: "Medium", percent: 25, color: "bg-priority-medium" },
-  { label: "Low", percent: 25, color: "bg-priority-low" },
 ];
 
 export const Stats = () => {
