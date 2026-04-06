@@ -6,7 +6,7 @@ import { Switch } from "@/components/ui/switch";
 export const SettingsPage = () => {
   return (
     <>
-      <div className="mb-6">
+      <div className="my-4 mx-6">
         <h1 className="text-2xl font-bold text-foreground">Settings</h1>
         <p className="text-sm text-muted-foreground mt-1">
           Configure your TaskFlow experience

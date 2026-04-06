@@ -48,7 +48,7 @@ export const KanbanBoard = () => {
         </p>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-4 md:gap-6 overflow-x-auto">
+      <div className="flex flex-col md:flex-row gap-4 md:gap-6 overflow-x-auto mr-4">
         <KanbanColumn
           title="To Do"
           tasks={initialTasks.todo}
