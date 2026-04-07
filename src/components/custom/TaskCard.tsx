@@ -10,8 +10,10 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
+import { useDraggable } from "@dnd-kit/react";
 
 interface TaskCardProps {
+  id: number;
   title: string;
   priority: "High" | "Medium" | "Low";
   dueDate: string;
@@ -26,14 +28,24 @@ const priorityConfig = {
 };
 
 export const TaskCard = ({
+  id,
   title,
   priority,
   dueDate,
   onUpdate,
   onDelete,
 }: TaskCardProps) => {
+  const { ref } = useDraggable({
+    id: String(id),
+    // Datos adicionales que quieras pasar al evento onDragEnd
+    data: { id, title, priority, dueDate },
+  });
+
   return (
-    <div className="group bg-card rounded-xl border border-border p-4 shadow-sm hover:shadow-md transition-all cursor-pointer">
+    <div
+      ref={ref}
+      className="group bg-card rounded-xl border border-border p-4 shadow-sm hover:shadow-md transition-all cursor-pointer"
+    >
       <div className="flex items-start justify-between gap-2">
         <h4 className="text-sm font-medium text-card-foreground leading-snug">
           {title}

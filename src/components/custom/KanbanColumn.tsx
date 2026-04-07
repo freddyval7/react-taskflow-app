@@ -2,6 +2,7 @@ import { Plus, Inbox } from "lucide-react";
 import { Button } from "../ui/button";
 import { TaskCard } from "./TaskCard";
 import type { Task } from "@/interfaces/data.interface";
+import { useDroppable } from "@dnd-kit/react";
 
 interface KanbanColumnProps {
   title: string;
@@ -20,6 +21,8 @@ export const KanbanColumn = ({
   onUpdateTask,
   onDeleteTask,
 }: KanbanColumnProps) => {
+  const { ref } = useDroppable({ id: title });
+
   return (
     <div className="flex flex-col bg-muted/50 rounded-2xl p-4 min-w-70 flex-1">
       <div className="flex items-center justify-between mb-4">
@@ -40,7 +43,7 @@ export const KanbanColumn = ({
         </Button>
       </div>
 
-      <div className="flex flex-col gap-3 flex-1">
+      <div ref={ref} className="flex flex-col gap-3 flex-1">
         {tasks.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-10 text-muted-foreground">
             <Inbox className="w-8 h-8 mb-2 opacity-40" />
@@ -50,6 +53,7 @@ export const KanbanColumn = ({
           tasks.map((task) => (
             <TaskCard
               key={task.id}
+              id={task.id}
               title={task.title}
               priority={task.priority}
               dueDate={task.dueDate}

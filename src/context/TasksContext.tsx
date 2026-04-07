@@ -19,7 +19,7 @@ interface TasksContext {
   //Methods
   addTask: (task: Task) => void;
   updateTask: (id: number, task: Task) => void;
-  updateTaskPriority: (id: number, priority: "High" | "Medium" | "Low") => void;
+  updateTaskState: (id: number, state: "Todo" | "In Progress" | "Done") => void;
   moveTask: (id: number, fromColumn: string, toColumn: string) => void;
   deleteTask: (id: number) => void;
 }
@@ -45,11 +45,11 @@ export const TasksProvider = ({ children }: PropsWithChildren) => {
     toast.success("Task updated successfully");
   };
 
-  const updateTaskPriority = (
+  const updateTaskState = (
     id: number,
-    priority: "High" | "Medium" | "Low",
+    state: "Todo" | "In Progress" | "Done",
   ) => {
-    setTasks(tasks.map((t) => (t.id === id ? { ...t, priority } : t)));
+    setTasks(tasks.map((t) => (t.id === id ? { ...t, state } : t)));
   };
 
   const moveTask = (id: number, fromColumn: string, toColumn: string) => {
@@ -74,7 +74,7 @@ export const TasksProvider = ({ children }: PropsWithChildren) => {
         tasksCount: tasks.length,
         addTask,
         updateTask,
-        updateTaskPriority,
+        updateTaskState,
         moveTask,
         deleteTask,
       }}
