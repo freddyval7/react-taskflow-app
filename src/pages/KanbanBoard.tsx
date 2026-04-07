@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { AddTaskModal } from "@/components/custom/AddTaskModal";
 import { KanbanColumn } from "@/components/custom/KanbanColumn";
-import { initialTasks } from "@/mock/mock.data";
+import { TasksContext } from "@/context/TasksContext";
 
 export const KanbanBoard = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const { tasks } = useContext(TasksContext);
 
   return (
     <>
@@ -19,21 +20,21 @@ export const KanbanBoard = () => {
       <div className="flex flex-col md:flex-row gap-4 md:gap-6 overflow-x-auto mr-4">
         <KanbanColumn
           title="To Do"
-          tasks={initialTasks.todo}
+          tasks={tasks.filter((t) => t.state === "Todo")}
           accentColor="bg-sky-600"
           onAddTask={() => setModalOpen(true)}
           onDeleteTask={(id) => console.log("Delete", id)}
         />
         <KanbanColumn
           title="In Progress"
-          tasks={initialTasks.inProgress}
+          tasks={tasks.filter((t) => t.state === "In Progress")}
           accentColor="bg-amber-600"
           onAddTask={() => setModalOpen(true)}
           onDeleteTask={(id) => console.log("Delete", id)}
         />
         <KanbanColumn
           title="Done"
-          tasks={initialTasks.done}
+          tasks={tasks.filter((t) => t.state === "Done")}
           accentColor="bg-emerald-600"
           onAddTask={() => setModalOpen(true)}
           onDeleteTask={(id) => console.log("Delete", id)}

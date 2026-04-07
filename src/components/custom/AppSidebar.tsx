@@ -35,7 +35,7 @@ export const AppSidebar = () => {
           {navItems.map((item) => {
             const isActive = currentPath === item.href;
             return (
-              <SidebarMenuItem>
+              <SidebarMenuItem key={item.href}>
                 <Link
                   key={item.href}
                   to={item.href}

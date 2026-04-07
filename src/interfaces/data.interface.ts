@@ -3,6 +3,7 @@ export interface Task {
   title: string;
   priority: "High" | "Medium" | "Low";
   dueDate: string;
+  state: "Todo" | "In Progress" | "Done";
 }
 
 export interface BarData {
