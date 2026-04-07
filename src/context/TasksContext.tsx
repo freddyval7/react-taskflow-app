@@ -7,6 +7,7 @@ import {
 
 import type { Task } from "@/interfaces/data.interface";
 import { initialTasks } from "@/mock/mock.data";
+import { toast } from "sonner";
 
 const STORAGE_KEY = "taskflow_tasks";
 
@@ -36,10 +37,12 @@ export const TasksProvider = ({ children }: PropsWithChildren) => {
 
   const addTask = (task: Task) => {
     setTasks([...tasks, task]);
+    toast.success("Task added successfully");
   };
 
   const updateTask = (id: number, task: Task) => {
     setTasks(tasks.map((t) => (t.id === id ? task : t)));
+    toast.success("Task updated successfully");
   };
 
   const updateTaskPriority = (
@@ -57,6 +60,7 @@ export const TasksProvider = ({ children }: PropsWithChildren) => {
 
   const deleteTask = (id: number) => {
     setTasks(tasks.filter((t) => t.id !== id));
+    toast.success("Task deleted successfully");
   };
 
   useEffect(() => {
