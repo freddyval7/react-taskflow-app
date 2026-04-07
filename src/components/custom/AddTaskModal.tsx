@@ -1,3 +1,7 @@
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
+
 import { X } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -9,17 +13,57 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
+import { useContext } from "react";
+import { TasksContext } from "@/context/TasksContext";
+import { generateID } from "@/utils/functions";
 
 interface AddTaskModalProps {
   open: boolean;
   onClose: () => void;
 }
 
+const formSchema = z.object({
+  title: z.string().min(5, "Title is too short"),
+  description: z.string().min(8, "Description is too short"),
+  priority: z.enum(["High", "Medium", "Low"]),
+  dueDate: z.string(),
+  state: z.enum(["Todo", "In Progress", "Done"]),
+});
+
 export const AddTaskModal = ({ open, onClose }: AddTaskModalProps) => {
+  const { addTask } = useContext(TasksContext);
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    mode: "onChange",
+    defaultValues: {
+      title: "",
+      description: "",
+      priority: "Medium",
+      dueDate: new Date().toISOString().split("T")[0],
+      state: "Todo",
+    },
+  });
+
+  const onSubmit = (data: z.infer<typeof formSchema>) => {
+    const newTask = {
+      ...data,
+      id: +generateID(),
+    };
+
+    console.log(newTask);
+    addTask(newTask);
+    onClose();
+  };
+
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <form
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      onSubmit={form.handleSubmit(onSubmit)}
+    >
       <div
         className="absolute inset-0 bg-foreground/20 backdrop-blur-sm"
         onClick={onClose}
@@ -38,64 +82,126 @@ export const AddTaskModal = ({ open, onClose }: AddTaskModalProps) => {
           </Button>
         </div>
 
-        <div className="space-y-4">
-          <div>
-            <label className="text-sm font-medium text-card-foreground mb-1.5 block">
-              Title
-            </label>
-            <Input placeholder="Enter task title..." />
-          </div>
+        <FieldGroup>
+          <Controller
+            name="title"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.error}>
+                <FieldLabel className="text-sm font-medium text-card-foreground mb-1.5 block">
+                  Title
+                </FieldLabel>
+                <Input
+                  aria-invalid={fieldState.invalid}
+                  placeholder="Enter task title..."
+                  {...field}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
 
-          <div>
-            <label className="text-sm font-medium text-card-foreground mb-1.5 block">
-              Description
-            </label>
-            <Textarea
-              placeholder="Describe the task..."
-              className="resize-none"
-              rows={3}
-            />
-          </div>
+          <Controller
+            name="description"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.error}>
+                <FieldLabel className="text-sm font-medium text-card-foreground mb-1.5 block">
+                  Description
+                </FieldLabel>
+                <Textarea
+                  {...field}
+                  aria-invalid={fieldState.invalid}
+                  placeholder="Describe the task..."
+                  className="resize-none"
+                  rows={3}
+                />
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
 
-          <div>
-            <label className="text-sm font-medium text-card-foreground mb-1.5 block">
-              Priority
-            </label>
-            <Select>
-              <SelectTrigger>
-                <SelectValue placeholder="Select priority" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="high">High</SelectItem>
-                <SelectItem value="medium">Medium</SelectItem>
-                <SelectItem value="low">Low</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          <Controller
+            name="priority"
+            control={form.control}
+            render={({ field }) => (
+              <Field>
+                <FieldLabel className="text-sm font-medium text-card-foreground mb-1.5 block">
+                  Priority
+                </FieldLabel>
+                <Select
+                  name={field.name}
+                  value={field.value}
+                  onValueChange={field.onChange}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select priority" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="High">High</SelectItem>
+                    <SelectItem value="Medium">Medium</SelectItem>
+                    <SelectItem value="Low">Low</SelectItem>
+                  </SelectContent>
+                </Select>
+              </Field>
+            )}
+          />
 
-          <div>
-            <label className="text-sm font-medium text-card-foreground mb-1.5 block">
-              Due Date
-            </label>
-            <Input type="date" />
-          </div>
-        </div>
+          <Controller
+            name="state"
+            control={form.control}
+            render={({ field }) => (
+              <Field>
+                <FieldLabel className="text-sm font-medium text-card-foreground mb-1.5 block">
+                  State
+                </FieldLabel>
+                <Select
+                  name={field.name}
+                  value={field.value}
+                  onValueChange={field.onChange}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select the state" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Todo">Todo</SelectItem>
+                    <SelectItem value="In Progress">In Progress</SelectItem>
+                    <SelectItem value="Done">Done</SelectItem>
+                  </SelectContent>
+                </Select>
+              </Field>
+            )}
+          />
+
+          <Controller
+            name="dueDate"
+            control={form.control}
+            render={({ field }) => (
+              <Field>
+                <FieldLabel className="text-sm font-medium text-card-foreground mb-1.5 block">
+                  Due Date
+                </FieldLabel>
+                <Input type="date" {...field} />
+              </Field>
+            )}
+          />
+        </FieldGroup>
 
         <div className="flex gap-3 mt-6">
-          <Button variant="outline" className="flex-1" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button
-            className="flex-1"
-            onClick={() => {
-              console.log("Add task");
-              onClose();
-            }}
-          >
-            Add Task
-          </Button>
+          <Field orientation={"horizontal"}>
+            <Button variant="outline" className="flex-1" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button className="flex-1" type="submit">
+              Add Task
+            </Button>
+          </Field>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
