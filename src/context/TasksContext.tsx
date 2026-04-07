@@ -1,7 +1,14 @@
-import { createContext, useState, type PropsWithChildren } from "react";
+import {
+  createContext,
+  useEffect,
+  useState,
+  type PropsWithChildren,
+} from "react";
 
 import type { Task } from "@/interfaces/data.interface";
 import { initialTasks } from "@/mock/mock.data";
+
+const STORAGE_KEY = "taskflow_tasks";
 
 interface TasksContext {
   // State
@@ -19,8 +26,13 @@ interface TasksContext {
 // eslint-disable-next-line react-refresh/only-export-components
 export const TasksContext = createContext({} as TasksContext);
 
+const getTasksFromLocalStorage = () => {
+  const tasks = localStorage.getItem(STORAGE_KEY);
+  return tasks ? JSON.parse(tasks) : initialTasks;
+};
+
 export const TasksProvider = ({ children }: PropsWithChildren) => {
-  const [tasks, setTasks] = useState<Task[]>(initialTasks);
+  const [tasks, setTasks] = useState<Task[]>(getTasksFromLocalStorage());
 
   const addTask = (task: Task) => {
     setTasks([...tasks, task]);
@@ -46,6 +58,10 @@ export const TasksProvider = ({ children }: PropsWithChildren) => {
   const deleteTask = (id: number) => {
     setTasks(tasks.filter((t) => t.id !== id));
   };
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+  }, [tasks]);
 
   return (
     <TasksContext.Provider
