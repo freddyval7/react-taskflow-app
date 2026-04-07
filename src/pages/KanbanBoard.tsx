@@ -3,9 +3,12 @@ import { useContext, useState } from "react";
 import { AddTaskModal } from "@/components/custom/AddTaskModal";
 import { KanbanColumn } from "@/components/custom/KanbanColumn";
 import { TasksContext } from "@/context/TasksContext";
+import { UpdateTaskModal } from "@/components/custom/UpdateTaskModal";
 
 export const KanbanBoard = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [taskToEdit, setTaskToEdit] = useState(0);
+  const [updateModalOpen, setUpdateModalOpen] = useState(false);
   const { tasks, deleteTask } = useContext(TasksContext);
 
   return (
@@ -23,6 +26,10 @@ export const KanbanBoard = () => {
           tasks={tasks.filter((t) => t.state === "Todo")}
           accentColor="bg-sky-600"
           onAddTask={() => setModalOpen(true)}
+          onUpdateTask={(id) => {
+            setTaskToEdit(id);
+            setUpdateModalOpen(true);
+          }}
           onDeleteTask={(id) => deleteTask(id)}
         />
         <KanbanColumn
@@ -30,6 +37,10 @@ export const KanbanBoard = () => {
           tasks={tasks.filter((t) => t.state === "In Progress")}
           accentColor="bg-amber-600"
           onAddTask={() => setModalOpen(true)}
+          onUpdateTask={(id) => {
+            setTaskToEdit(id);
+            setUpdateModalOpen(true);
+          }}
           onDeleteTask={(id) => deleteTask(id)}
         />
         <KanbanColumn
@@ -37,11 +48,20 @@ export const KanbanBoard = () => {
           tasks={tasks.filter((t) => t.state === "Done")}
           accentColor="bg-emerald-600"
           onAddTask={() => setModalOpen(true)}
+          onUpdateTask={(id) => {
+            setTaskToEdit(id);
+            setUpdateModalOpen(true);
+          }}
           onDeleteTask={(id) => deleteTask(id)}
         />
       </div>
 
       <AddTaskModal open={modalOpen} onClose={() => setModalOpen(false)} />
+      <UpdateTaskModal
+        id={taskToEdit}
+        open={updateModalOpen}
+        onClose={() => setUpdateModalOpen(false)}
+      />
     </>
   );
 };

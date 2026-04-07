@@ -1,4 +1,4 @@
-import { Trash2, Calendar } from "lucide-react";
+import { Trash2, Calendar, Pencil } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,6 +15,7 @@ interface TaskCardProps {
   title: string;
   priority: "High" | "Medium" | "Low";
   dueDate: string;
+  onUpdate?: () => void;
   onDelete?: () => void;
 }
 
@@ -28,6 +29,7 @@ export const TaskCard = ({
   title,
   priority,
   dueDate,
+  onUpdate,
   onDelete,
 }: TaskCardProps) => {
   return (
@@ -36,27 +38,33 @@ export const TaskCard = ({
         <h4 className="text-sm font-medium text-card-foreground leading-snug">
           {title}
         </h4>
-        <AlertDialog>
-          <AlertDialogTrigger>
-            <button className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-md hover:bg-destructive/10 text-muted-foreground hover:text-destructive">
+        <div className="flex items-center gap-1">
+          <button
+            className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-md hover:bg-ring/10 text-muted-foreground hover:text-ring"
+            onClick={onUpdate}
+          >
+            <Pencil className="w-3.5 h-3.5" />
+          </button>
+          <AlertDialog>
+            <AlertDialogTrigger className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-md hover:bg-destructive/10 text-muted-foreground hover:text-destructive">
               <Trash2 className="w-3.5 h-3.5" />
-            </button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>
-                Do you want to delete this task?
-              </AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={onDelete}>Delete</AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>
+                  Do you want to delete this task?
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={onDelete}>Delete</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
       </div>
       <div className="flex items-center gap-2 mt-3">
         <span

@@ -8,6 +8,7 @@ interface KanbanColumnProps {
   tasks: Task[];
   accentColor: string;
   onAddTask?: () => void;
+  onUpdateTask?: (id: number) => void;
   onDeleteTask?: (id: number) => void;
 }
 
@@ -16,6 +17,7 @@ export const KanbanColumn = ({
   tasks,
   accentColor,
   onAddTask,
+  onUpdateTask,
   onDeleteTask,
 }: KanbanColumnProps) => {
   return (
@@ -51,6 +53,7 @@ export const KanbanColumn = ({
               title={task.title}
               priority={task.priority}
               dueDate={task.dueDate}
+              onUpdate={() => onUpdateTask?.(task.id)}
               onDelete={() => onDeleteTask?.(task.id)}
             />
           ))

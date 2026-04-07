@@ -1,8 +1,8 @@
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-
 import { X } from "lucide-react";
+
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
@@ -16,9 +16,9 @@ import {
 import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 import { useContext } from "react";
 import { TasksContext } from "@/context/TasksContext";
-import { generateID } from "@/utils/functions";
 
-interface AddTaskModalProps {
+interface UpdateTaskModalProps {
+  id: number;
   open: boolean;
   onClose: () => void;
 }
@@ -31,29 +31,34 @@ const formSchema = z.object({
   state: z.enum(["Todo", "In Progress", "Done"]),
 });
 
-export const AddTaskModal = ({ open, onClose }: AddTaskModalProps) => {
-  const { addTask } = useContext(TasksContext);
+export const UpdateTaskModal = ({
+  id,
+  open,
+  onClose,
+}: UpdateTaskModalProps) => {
+  const { tasks, updateTask } = useContext(TasksContext);
+  const task = tasks.find((t) => t.id === id);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     mode: "onChange",
-    defaultValues: {
-      title: "",
-      description: "",
-      priority: "Medium",
-      dueDate: new Date().toISOString().split("T")[0],
-      state: "Todo",
+    values: {
+      title: task?.title || "",
+      description: task?.description || "",
+      priority: task?.priority || "Medium",
+      dueDate: task?.dueDate || new Date().toISOString().split("T")[0],
+      state: task?.state || "Todo",
     },
   });
 
   const onSubmit = (data: z.infer<typeof formSchema>) => {
-    const newTask = {
+    const updatedTask = {
       ...data,
-      id: +generateID(),
+      id,
     };
 
-    console.log(newTask);
-    addTask(newTask);
+    console.log(updatedTask);
+    updateTask(id, updatedTask);
     onClose();
   };
 
@@ -71,7 +76,7 @@ export const AddTaskModal = ({ open, onClose }: AddTaskModalProps) => {
       <div className="relative bg-card rounded-2xl border border-border shadow-xl w-full max-w-md mx-4 p-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-lg font-semibold text-card-foreground">
-            Add New Task
+            Update Task
           </h2>
           <Button
             onClick={onClose}
@@ -197,7 +202,7 @@ export const AddTaskModal = ({ open, onClose }: AddTaskModalProps) => {
               Cancel
             </Button>
             <Button className="flex-1" type="submit">
-              Add Task
+              Update Task
             </Button>
           </Field>
         </div>
