@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import { Layout } from "./layouts/Layout";
 import { KanbanBoard } from "./pages/KanbanBoard";
-import { Stats } from "./pages/Stats";
+import { Stats } from "./pages/stats/Stats";
 import { SettingsPage } from "./pages/Settings";
 import { NotFound } from "./pages/NotFoundPage";
 

@@ -15,5 +15,5 @@ export interface BarData {
 export interface PieData {
   label: string;
   percent: number;
-  color: string;
+  fill: string;
 }

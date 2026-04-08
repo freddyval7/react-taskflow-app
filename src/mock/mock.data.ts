@@ -44,7 +44,7 @@ export const barData: BarData[] = [
 ];
 
 export const pieData: PieData[] = [
-  { label: "High", percent: 50, color: "bg-priority-high" },
-  { label: "Medium", percent: 25, color: "bg-priority-medium" },
-  { label: "Low", percent: 25, color: "bg-priority-low" },
+  { label: "High", percent: 50, fill: "var(--color-priority-high)" },
+  { label: "Medium", percent: 25, fill: "var(--color-priority-medium)" },
+  { label: "Low", percent: 25, fill: "var(--color-priority-low)" },
 ];
