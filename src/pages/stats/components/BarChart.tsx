@@ -22,7 +22,7 @@ export function BarChartApp() {
     <Card>
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <BarChart accessibilityLayer data={barData}>
+          <BarChart accessibilityLayer data={barData} responsive>
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="day"

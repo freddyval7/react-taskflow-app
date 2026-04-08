@@ -41,7 +41,7 @@ export function PieChartApp() {
           config={chartConfig}
           className="mx-auto aspect-square max-h-[250px]"
         >
-          <PieChart>
+          <PieChart responsive>
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
