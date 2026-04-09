@@ -12,7 +12,7 @@ export const KanbanBoard = () => {
   const [taskToEdit, setTaskToEdit] = useState(0);
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
   const { tasks, deleteTask, updateTaskState } = useContext(TasksContext);
-  const [activeTask, setActiveTask] = useState<Task | null>(null);
+  const [, setActiveTask] = useState<Task | null>(null);
 
   const handleDragEnd = (event: any) => {
     if (event.canceled) return;
