@@ -1,5 +1,6 @@
+import { cn } from "@/lib/utils";
 import { LayoutDashboard, BarChart3, Settings, Zap } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 
 const navItems = [
   { title: "Board", href: "/", icon: LayoutDashboard },
@@ -8,7 +9,11 @@ const navItems = [
 ];
 
 export const MobileNav = () => {
-  const currentPath = window.location.pathname;
+  const { pathname } = useLocation();
+
+  const isActive = (path: string) => {
+    return pathname === path;
+  };
 
   return (
     <>
@@ -22,16 +27,16 @@ export const MobileNav = () => {
       </header>
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around bg-card border-t border-border py-2 px-4">
         {navItems.map((item) => {
-          const isActive = currentPath === item.href;
           return (
             <Link
               key={item.href}
               to={item.href}
-              className={`flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                isActive
+              className={cn(
+                "flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors",
+                isActive(item.href)
                   ? "text-primary"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
+                  : "text-muted-foreground hover:text-foreground",
+              )}
             >
               <item.icon className="w-5 h-5" />
               {item.title}
