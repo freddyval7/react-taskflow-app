@@ -2,8 +2,15 @@ import { Moon, Trash2, Download, Upload } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
+import { useTheme } from "@/components/theme-provider";
 
 export const SettingsPage = () => {
+  const { setTheme, theme } = useTheme();
+
+  const handleThemeChange = (checked: boolean) => {
+    setTheme(checked ? "dark" : "light");
+  };
+
   return (
     <>
       <div className="my-4 mx-6">
@@ -30,7 +37,8 @@ export const SettingsPage = () => {
             </div>
           </div>
           <Switch
-            onCheckedChange={(checked) => console.log("Dark mode:", checked)}
+            checked={theme === "dark"}
+            onCheckedChange={handleThemeChange}
           />
         </div>
 
