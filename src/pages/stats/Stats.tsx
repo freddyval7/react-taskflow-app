@@ -30,8 +30,6 @@ export const Stats = () => {
       return task.dueDate >= startStr && task.dueDate <= endStr;
     });
 
-    console.log(filtered);
-
     setActualTasks(filtered);
   };
 
@@ -123,7 +121,7 @@ export const Stats = () => {
             Tasks completed per day
           </h3>
           <p className="text-xs text-muted-foreground mb-6">Last 7 days</p>
-          <BarChartApp />
+          <BarChartApp completedTasks={actualTasksCompleted} />
         </div>
 
         {/* Pie chart placeholder */}
@@ -135,7 +133,7 @@ export const Stats = () => {
             Distribution overview
           </p>
           <div className="flex items-center gap-8">
-            <PieChartApp />
+            <PieChartApp tasks={actualTasks} />
           </div>
         </div>
       </div>
