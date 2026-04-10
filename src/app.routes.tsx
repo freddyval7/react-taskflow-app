@@ -1,11 +1,11 @@
-import { createBrowserRouter } from "react-router";
+import { createHashRouter } from "react-router";
 import { Layout } from "./layouts/Layout";
 import { KanbanBoard } from "./pages/KanbanBoard";
 import { Stats } from "./pages/stats/Stats";
 import { SettingsPage } from "./pages/Settings";
 import { NotFound } from "./pages/NotFoundPage";
 
-export const appRouter = createBrowserRouter([
+export const appRouter = createHashRouter([
   {
     path: "/",
     element: <Layout />,
