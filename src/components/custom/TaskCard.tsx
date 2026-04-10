@@ -11,6 +11,7 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 import { useDraggable } from "@dnd-kit/react";
+import { PointerActivationConstraints, PointerSensor } from "@dnd-kit/dom";
 
 interface TaskCardProps {
   id: number;
@@ -39,12 +40,24 @@ export const TaskCard = ({
     id: String(id),
     // Datos adicionales que quieras pasar al evento onDragEnd
     data: { id, title, priority, dueDate },
+    // Sensors para activar el drag en móviles
+    sensors: [
+      PointerSensor.configure({
+        activationConstraints: [
+          // Start dragging after moving 5px
+          new PointerActivationConstraints.Distance({ value: 5 }),
+          // Or after holding for 250ms with 5px tolerance
+          new PointerActivationConstraints.Delay({ value: 250, tolerance: 5 }),
+        ],
+      }),
+    ],
   });
 
   return (
     <div
       ref={ref}
-      className="group bg-card rounded-xl border border-border p-4 shadow-sm hover:shadow-md transition-all cursor-pointer"
+      className="group bg-card rounded-xl border border-border p-4 shadow-sm hover:shadow-md transition-all cursor-pointer touch-none
+      transform-gpu duration-300 hover:scale-105 hover:border-primary/50"
     >
       <div className="flex items-start justify-between gap-2">
         <h4 className="text-sm font-medium text-card-foreground leading-snug">
